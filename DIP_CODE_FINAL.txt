@@ -1,0 +1,484 @@
+
+
+-------------------------PRACTICAL No. 1------------------------
+Aim: 2D Linear Convolution, Circular Convolution between two 2D matrices.
+
+-->2D Linear Convolution
+
+
+clc;
+x=[4,5,6;7,8,9];
+h=[1;1;1];
+disp(x,"x=");
+disp(h,"h=");
+y=conv2(x,h);
+disp(y, '2D Linear Convolution result: y =' );
+
+
+clc;
+x=[1,2,3;4,5,6;7,8,9];
+h=[1,1;1,1;1,1];
+disp(x,"x=");
+disp(h,"h=");
+y=conv2(x,h);
+disp(y, '2D Linear Convolution result: y =' );
+
+-->2D Circular Convolution
+
+
+clc ;
+x=[1,2;3,4];
+h=[5,6;7,8];
+disp(x,'x=');
+disp(h,'h=');
+X=fft2(x);
+H=fft2(h);
+Y=X.*H;
+y=ifft(Y);
+disp(y, '2D Circular Correlation Result: y =' );
+
+
+clc ;
+x=[1,2,3;4,5,6;7,8,9];
+h=[1,1,1;1,1,1;1,1,1];
+disp(x,'x=');
+disp(h,'h=');
+X=fft2(x);
+H=fft2(h);
+Y=X.*H;
+y=ifft(Y);
+disp(y, '2D Circular Correlation Result: y =' );
+
+
+
+------------------------------PRACTICAL No. 2-----------------------
+
+Aim: Circular Convolution expressed as Linear Convolution plus alias.
+
+clc ;
+x =[1,2;3,4];
+h=[5,6;7,8];
+y=conv2(x,h);
+y1=[y(:,1)+y(:,$),y(:,2) ];
+y2=[y1(1,:)+y1($,:);y1(2,:)];
+disp(y, 'Linear Convolution Result: y=');
+disp(y2 , 'Circular Convolution expressed as Linear Convolution =' );
+
+------------------------------PRACTICAL No. 3--------------------------
+
+Aim: Linear Cross correlation of a 2D matrix, Circular correlation between two signals and Linear auto correlation of a 2D matrix, Linear Cross correlation of a 2D matrix
+
+
+
+-->Linear Cross correlation of a 2D matrix
+
+clc;
+x = [3,1;2,4];
+h1 = [1,5;2,3];
+h2 = h1(:,$:-1:1);
+h = h2($:-1:1,:);
+y = conv2(x,h)
+disp(y, 'Linear cross Correlation result y=')
+
+
+-->Circular correlation between two signals
+
+clc;
+x = [1,5;2,4];
+h = [3,2;4,1];
+h = h(:,$:-1:1);
+h = h($:-1:1,:);
+X = fft2(x);
+H = fft2(h);
+Y = X.*H;
+y = ifft(Y);
+disp(y,'Circular Correlation result y=')
+
+
+-->Linear auto correlation of a 2D matrix
+
+clc;
+x1 = [1,1;1,1];
+x2 = x1(:,$:-1:1);
+x2 = x2($:-1:1,:);
+x = conv2(x1,x2)
+disp(x,'Linear auto Correlation result x=')
+
+-->Linear Cross correlation of a 2D matrix
+
+clc;
+x = [1,1;1,1];
+h1 = [1,2;3,4];
+h2 = h1(:,$:-1:1);
+h = h2($:-1:1,:);
+y = conv2(x,h)
+disp(y, ' Linear cross Correlation result y=')
+
+-------------------PRACTICAL No. 4---------------
+
+Aim: Perform DFT of a 4x4 gray scale image.
+
+clc;
+x=[1,1,1,1;1,1,1,1;1,1,1,1;1,1,1,1];
+X=fft(x,-1);
+disp(X,"X[k]=");
+
+
+------------------------------PRACTICAL No. 5-----------------------
+
+AIM:- Compute discrete cosine transform, Program to perform KL transform for the given 2D matrix.
+
+clc; 
+X = [4,3,5,6; 4,2,7,7; 5,5,6,7];
+[m, n] = size(X); 
+A = zeros(m, 1); 
+E = zeros(m, m);
+T = [];        
+for i = 1:n   
+    A = A + X(:, i); 
+    E = E + X(:, i) * X(:, i)';
+end 
+mx = A / n; 
+E = E / n; 
+C = E - mx * mx';
+[V, D] = spec(C);
+d = diag(D); 
+[d, i] = gsort(d);
+for j = 1:length(d)
+    T(:, j) = V(:, i(j)); 
+end 
+T = T';
+disp('Eigen Values are U = ',d); 
+disp('The eigen vector matrix T =',T); 
+disp('The KL transform basis is =',T) ;
+for i = 1:n 
+    Y(:, i) = T * X(:, i);
+end 
+disp('KL transformation of the input matrix Y =',Y); 
+for i = 1:n
+    X(:, i) = T' * Y(:, i); 
+end 
+disp('Reconstruct matrix of the given sample matrix X =',X);
+
+---------------------PRACTICAL No. 6------------------
+
+AIM:- Brightness enhancement of an image, Contrast Manipulation, image negative.
+Install Image Processing and Signal Processing packages and restart scilab.
+Run this command on console: atomsRemove('scicv')
+Restart scilab
+
+-->Brightness Enhancement
+
+clc;
+close;
+a=imread('C:\Users\ADMIN\Desktop\flower.jpg');
+a=rgb2gray(a);
+b=double(a)+50;
+b=uint8(b);
+figure(1);
+imshow(a);
+title("Original Image")
+figure(2);
+imshow(b);
+title("Enhanced Image")
+
+-->Contrast Manipulation
+
+clc ;
+close ;
+a = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+a = rgb2gray(a);
+b = double(a)*0.5;
+b = uint8 (b)
+c = double(b)*2;
+c = uint8(c)
+figure(1)
+imshow(a);
+title('Original Image')
+figure(2)
+imshow(b);
+title('Decreased Contrast' )
+figure(3)
+imshow(c);
+title('Increased Contrast')
+
+
+-->Image Negative
+
+
+clc;
+close;
+a = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+k = 255-double(a);
+k = uint8(k);
+figure(1)
+imshow(a);
+title('Original Image')
+figure(2)
+imshow(k);
+title('Negative of Original Image')
+
+
+--------------------------PRACTICAL No. 7----------------------
+
+AIM:- Perform threshold operation, perform gray level slicing without background.
+Install Image Processing and Signal Processing packages and restart scilab.
+Run this command on console: atomsRemove('scicv')
+Restart scilab
+
+
+-->Threshold Operation
+
+clc;
+close;
+a = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+a = rgb2gray(a);
+[m n] = size(a);
+t = input('Enter threshold parameter: ');
+for i = 1:m
+for j = 1:n
+if(a(i,j)<t)
+b(i,j)=0;
+else
+b(i,j) =255;
+end
+end
+end
+figure(1)
+imshow(a);
+title('Original Image')
+figure(2)
+imshow(b);
+title('Threshold Image')
+xlabel(sprintf('Threshold Value is %g ',t))
+
+
+-->Gray Level Scaling without background.
+
+clc ;
+x = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+x = rgb2gray(x);
+y = double(x);
+[m,n]= size(y);
+L = max(max(x));
+a = round(L/2) ;
+b = L;
+for i =1: m
+for j =1: n
+if(y(i,j)>=a & y(i,j)<=b)
+z(i,j) = L;
+else
+z(i,j)=0;
+end
+end
+end
+z = uint8(z);
+figure(1)
+imshow(x);
+title('Original Image')
+figure(2)
+imshow(z);
+title('Gray Level Slicing without preserving background')
+
+-------------------PRACTICAL No. 8----------------------
+
+AIM:- Image Segmentation.
+Install Image Processing and Signal Processing packages and restart scilab.
+Run this command on console: atomsRemove('scicv')
+Restart scilab
+
+-->Differentiation of Gaussian function.
+
+clc ;
+close ;
+sigma = input('Enter the value of sigma: ')
+i = -10:.1:10;
+j = -10:.1:10;
+r = sqrt(i.*i+j.*j);
+y = (1/(sigma^2))*(((r.*r)/sigma^2)-1) .* exp(-r.*r/2*sigma^2);
+plot(i,y)
+legend(sprintf('The sigma value is %g',sigma))
+xtitle('Differentiation of Gaussian function')
+
+
+-->Differentiation of Gaussian Filter function
+
+clc ;
+close ;
+sigma1 = input('Enter the value of sigma1: ')
+sigma2 = input ('Enter the value of sigma2: ')
+i = -10:.1:10;
+j = -10:.1:10;
+r = sqrt(i.*i+j.*j);
+y1 = (1/( sigma1^2))*(((r.*r)/sigma1^2)-1) .* exp(-r.*r/2*sigma1^2);
+y2 = (1/( sigma2^2))*(((r.*r)/sigma2^2)-1) .* exp(-r.*r/2*sigma2 ^2);
+y = y1-y2;
+plot(i,y)
+xtitle('Shape of DOG Filter ')
+
+
+--> Edge Detection using Different Edge detectors
+
+clc ;
+a = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+a = rgb2gray(a);
+c = edge(a,'sobel');
+d = edge(a,'prewitt');
+e = edge(a,'log');
+f = edge (a,'canny');
+imshow(a)
+title('Original Image')
+figure
+imshow(c)
+title('Sobel')
+figure
+imshow(d)
+title('prewitt')
+figure
+imshow(e)
+title('Log')
+figure
+imshow(f)
+title('Canny')
+
+
+------------------------PRACTICAL No. 9-------------------------
+
+AIM:- Image Compression.
+Install Image Processing and Signal Processing packages and restart scilab.
+Run this command on console: atomsRemove('scicv')
+Restart scilab
+
+-->Block Truncation Coding BTC (Output in the form of Matrix).
+
+close;
+clear;
+clc;
+x=[65,75,80,70;72,75,82,68;84,72,62,65;66,68,72,80];
+disp(x,"Original Block is x = " );
+[ m1 n1 ] = size(x);
+blk = input("Enter the block size: ");
+for i = 1:blk:m1
+for j = 1:blk:n1
+y = x(i:i+(blk-1),j:j+(blk -1));
+m = mean(mean(y));
+disp(m,"mean value is m = ");
+sig = stdev(y);
+disp(sig,"Standard deviation of the block is = ");
+b = y>m;
+disp(b,"Binary allocation matrix is B= ");
+K = sum(sum(b));
+disp(K,"number of ones = ");
+if(K~=blk^2)&( K~=0)
+ml = m-sig*sqrt(K/((blk^2)-K));
+disp(ml,"The value of a = ");
+mu = m+sig*sqrt(((blk^2)-K)/K);
+disp(mu,"The value of b = ");
+x(i:i+(blk-1),j:j+(blk-1))=b*mu+(1-b)*ml;
+end
+end
+end
+disp(round(x),"Reconstructed Block is x = " );
+
+----------------------------PRACTICAL No. 10-----------------------
+
+AIM:- Binary Image Processing and Colour Image processing.
+Install Image Processing and Signal Processing packages and restart scilab.
+Run this command on console: atomsRemove('scicv')
+Restart scilab
+
+
+--->Dilation and erosion process.
+
+close ;
+clear ;
+clc ;
+a = imread('C:\Users\ADMIN\Desktop\letter.png');
+b = imcreatese('rect',7,7); //Structuring element value can be either rect, ellipse, cross
+a1 = imdilate(a,b);
+a2 = imerode(a,b);
+figure(1)
+imshow(a);
+title('Original Image')
+figure(2)
+imshow(a1);
+title('Dilated Image')
+figure(3)
+imshow(a2);
+title('Eroded Image')
+
+-->opening and closing operation on the image.
+
+Code:-
+close ;
+clear ;
+clc ;
+a = imread('C:\Users\ADMIN\Desktop\letter.png');
+b = imcreatese('rect',7,7); //Structuring element value can be either rect, ellipse, cross
+a1 = imopen(a,b);
+a2 = imclose(a,b);
+figure(1)
+imshow(a);
+title('Original Image')
+figure(2)
+imshow(a1);
+title('Opening Operation')
+figure(3)
+imshow(a2);
+title('Closing Operation')
+
+--->Read an RGB image and extract the three colour components red, green and blue.
+
+clc;
+close ;
+RGB = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+R = RGB;
+G = RGB;
+B = RGB;
+R(: ,: ,2) =0;
+R(: ,: ,3) =0;
+G(: ,: ,1) =0;
+G(: ,: ,3) =0;
+B(: ,: ,1) =0;
+B(: ,: ,2) =0;
+figure(1)
+imshow(RGB);
+title('Original Color Image');
+figure(2)
+imshow(R);
+title('Red Component');
+figure(3)
+imshow(G);
+title('Green Component');
+figure(4)
+imshow(B);
+title('Blue Component')
+
+-->Read a Colour image and separate the colour image into red green and blue planes.
+
+clc;
+close ;
+RGB = imread('C:\Users\ADMIN\Desktop\flower.jpg');
+R = RGB;
+G = RGB;
+B = RGB;
+R(: ,: ,1) =0;
+G(: ,: ,2) =0;
+B(: ,: ,3) =0;
+figure(1)
+imshow(RGB);
+title('Original Color Image');
+figure(2)
+imshow(R);
+title('Red Component Missing');
+figure(3)
+imshow(G);
+title('Green Component Missing');
+figure(4)
+imshow(B);
+title('Blue Component Missing')
+
+
+
+
+
